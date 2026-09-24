@@ -191,6 +191,71 @@
       min-width: 112px;
     }
 
+    .original-wrap {
+      margin: 0 0 18px;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(300px, 0.62fr) minmax(420px, 1fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .original-copy {
+      padding: 8px 8px 8px 4px;
+    }
+
+    .section-label {
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .original-copy h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .original-copy p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 620px;
+    }
+
+    .original-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 680;
+      white-space: nowrap;
+    }
+
+    .original-video {
+      display: grid;
+      gap: 10px;
+    }
+
     .matrix-wrap {
       overflow: hidden;
     }
@@ -360,6 +425,7 @@
       .controls { grid-template-columns: repeat(3, auto); }
       .scrub { grid-column: 1 / -1; }
       .status { grid-column: 1 / -1; text-align: left; }
+      .original-wrap { grid-template-columns: 1fr; }
       .matrix-wrap { overflow-x: auto; }
       .matrix-head, .video-row { grid-template-columns: 138px repeat(3, minmax(280px, 1fr)); min-width: 980px; }
       .matrix-head { top: 116px; }
@@ -409,6 +475,23 @@
       </div>
       <label class="toggle"><input id="muteToggle" type="checkbox" checked> Muted</label>
       <div class="status" id="status">Ready</div>
+    </section>
+
+    <section class="original-wrap" aria-label="Original video to repair">
+      <div class="original-copy">
+        <div class="section-label">Original input</div>
+        <h2>Video to be corrected</h2>
+        <p>This is the unedited Physion-Eval sample used as the input for every result below. It is synchronized with the 9-grid controls for direct before/after comparison.</p>
+        <div class="original-meta">
+          <span class="pill">Physion-Eval #3</span>
+          <span class="pill">Contact / Interaction Failure</span>
+          <span class="pill">1bb7dbd3</span>
+        </div>
+      </div>
+      <div class="original-video">
+        <video controls playsinline preload="metadata" src="assets/videos/demo3/original/original_physion_eval_sample3.mp4"></video>
+        <div class="caption">Original generated video before physical self-correction.</div>
+      </div>
     </section>
 
     <section class="matrix-wrap" aria-label="Nine video comparison grid">
