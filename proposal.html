@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Physical Self-Correction Proposal</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17212b;
+      --muted: #5c6875;
+      --line: #d7dde3;
+      --panel: #ffffff;
+      --soft: #f5f7fa;
+      --accent: #126b5b;
+      --accent-2: #b6422b;
+      --accent-3: #355f9f;
+      --shadow: 0 14px 32px rgba(23, 33, 43, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #eef2f5;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent-3); }
+
+    .page {
+      width: min(1680px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(360px, 0.75fr);
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .hero, .brief, .controls, .matrix-wrap, .notes {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 26px 28px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 4vw, 64px);
+      line-height: 0.96;
+      font-weight: 820;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 900px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .brief {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      background: var(--soft);
+      padding: 12px;
+      min-height: 86px;
+    }
+
+    .metric .value {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .brief p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      padding: 14px 16px;
+      margin: 0 0 18px;
+      display: grid;
+      grid-template-columns: auto auto auto minmax(240px, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    button, .toggle {
+      min-height: 38px;
+      border: 1px solid #aeb8c3;
+      background: #fff;
+      color: var(--ink);
+      padding: 0 13px;
+      font-weight: 720;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    button:hover, .toggle:hover { filter: brightness(0.97); }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    .toggle input { margin: 0; }
+
+    .scrub {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr) 64px;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .scrub time {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+      min-width: 112px;
+    }
+
+    .matrix-wrap {
+      overflow: hidden;
+    }
+
+    .matrix-head, .video-row {
+      display: grid;
+      grid-template-columns: 168px repeat(3, minmax(0, 1fr));
+    }
+
+    .matrix-head {
+      position: sticky;
+      top: 68px;
+      z-index: 4;
+      background: #f9fafb;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .corner, .col-head, .row-head {
+      padding: 14px 16px;
+      border-right: 1px solid var(--line);
+    }
+
+    .corner {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 740;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .col-head {
+      min-height: 78px;
+    }
+
+    .col-head h2 {
+      margin: 0 0 6px;
+      font-size: 17px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .col-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .video-row {
+      border-bottom: 1px solid var(--line);
+      min-height: 326px;
+    }
+
+    .video-row:last-child { border-bottom: 0; }
+
+    .row-head {
+      background: #fbfcfd;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .row-head h3 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .row-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .cell {
+      min-width: 0;
+      border-right: 1px solid var(--line);
+      padding: 12px;
+      background: #fff;
+    }
+
+    .cell:last-child, .col-head:last-child { border-right: 0; }
+
+    .video-card {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 24px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 740;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .task {
+      color: var(--muted);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #101820;
+      display: block;
+      object-fit: contain;
+      border: 1px solid #101820;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      min-height: 34px;
+    }
+
+    .notes {
+      margin-top: 18px;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .notes h2 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .notes p, .notes li {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .notes p { margin: 0; }
+    .notes ul { margin: 0; padding-left: 18px; }
+
+    @media (max-width: 1100px) {
+      .page { width: min(100vw - 20px, 980px); padding-top: 16px; }
+      header { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: repeat(3, auto); }
+      .scrub { grid-column: 1 / -1; }
+      .status { grid-column: 1 / -1; text-align: left; }
+      .matrix-wrap { overflow-x: auto; }
+      .matrix-head, .video-row { grid-template-columns: 138px repeat(3, minmax(280px, 1fr)); min-width: 980px; }
+      .matrix-head { top: 116px; }
+      .notes { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 20px; }
+      .brief { padding: 16px; }
+      .metric-row { grid-template-columns: 1fr; }
+      .controls { position: static; grid-template-columns: 1fr 1fr; }
+      button, .toggle { width: 100%; justify-content: center; }
+      .scrub, .status { grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <section class="hero" aria-labelledby="title">
+        <div>
+          <div class="eyebrow">Proposal Demo</div>
+          <h1 id="title">Physical Self-Correction</h1>
+          <p class="subtitle">A video-editing benchmark probe for whether generative video models can identify and correct physical glitches. This page compares three models under three feedback settings on the same Physion-Eval sample.</p>
+        </div>
+      </section>
+
+      <aside class="brief" aria-label="Demo summary">
+        <div class="metric-row">
+          <div class="metric"><div class="value">3</div><div class="label">Editing models</div></div>
+          <div class="metric"><div class="value">3</div><div class="label">Feedback settings</div></div>
+          <div class="metric"><div class="value">9</div><div class="label">Comparable outputs</div></div>
+        </div>
+        <p><strong>Sample:</strong> Physion-Eval #3, a sink-and-mug scene from the 100-sample demo package.</p>
+        <p><strong>Comparison:</strong> GT feedback gives the dataset glitch annotation; GPT-5.5 feedback uses a model-detected Physion-style annotation; self correction gives only a generic physical-repair instruction.</p>
+      </aside>
+    </header>
+
+    <section class="controls" aria-label="Synchronized video controls">
+      <button class="primary" id="runAll" type="button">Run all</button>
+      <button id="pauseAll" type="button">Pause</button>
+      <button id="resetAll" type="button">Reset</button>
+      <div class="scrub">
+        <time id="currentTime">0.00s</time>
+        <input id="globalScrub" type="range" min="0" max="1000" value="0" aria-label="Shared video progress">
+        <time id="duration">0.00s</time>
+      </div>
+      <label class="toggle"><input id="muteToggle" type="checkbox" checked> Muted</label>
+      <div class="status" id="status">Ready</div>
+    </section>
+
+    <section class="matrix-wrap" aria-label="Nine video comparison grid">
+      <div class="matrix-head">
+        <div class="corner">Model × Prompt</div>
+        <div class="col-head">
+          <h2>GT feedback</h2>
+          <p>Uses the original Physion-Eval physical glitch annotation.</p>
+        </div>
+        <div class="col-head">
+          <h2>GPT-5.5 feedback</h2>
+          <p>GPT-5.5 first writes a Physion-style glitch annotation, then the editor fixes it.</p>
+        </div>
+        <div class="col-head">
+          <h2>Self correction</h2>
+          <p>No explicit glitch annotation; only a generic physical-repair instruction.</p>
+        </div>
+      </div>
+
+      <div class="video-row">
+        <div class="row-head">
+          <h3>Wan2.7</h3>
+          <p>Video-edit endpoint for targeted physical correction.</p>
+        </div>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">GT</span><span class="task">11fe4375</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/gt-glitch-prompt/wan27_gt_prompt.mp4"></video>
+          <div class="caption">Prompt names the water-contact, splash, right-palm water, and cup-rim issues.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">GPT-5.5</span><span class="task">b35b6edf</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/gpt55-detected-prompt/wan27_gpt55_prompt.mp4"></video>
+          <div class="caption">Prompt targets GPT-5.5's detected mug handle/body consistency issue.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Self</span><span class="task">cd296a6b</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/blind-prompt/wan27_blind_prompt.mp4"></video>
+          <div class="caption">Prompt asks for physically plausible behavior without telling the glitch.</div>
+        </div></article>
+      </div>
+
+      <div class="video-row">
+        <div class="row-head">
+          <h3>Wan3.0</h3>
+          <p>Video-prime model with reference-video conditioning.</p>
+        </div>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">GT</span><span class="task">54f533c8</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/gt-glitch-prompt/wan30_gt_prompt.mp4"></video>
+          <div class="caption">Reference-video input with the Physion-Eval glitch text.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">GPT-5.5</span><span class="task">944322e3</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/gpt55-detected-prompt/wan30_gpt55_prompt.mp4"></video>
+          <div class="caption">Reference-video input with GPT-5.5 detected feedback.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Self</span><span class="task">b6b9088b</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/blind-prompt/wan30_blind_prompt.mp4"></video>
+          <div class="caption">Reference-video input with generic physical self-correction.</div>
+        </div></article>
+      </div>
+
+      <div class="video-row">
+        <div class="row-head">
+          <h3>MiniMax-H3</h3>
+          <p>Video generation model using the same reference-video setting.</p>
+        </div>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">GT</span><span class="task">4669ff0c</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/gt-glitch-prompt/minimax_h3_gt_prompt.mp4"></video>
+          <div class="caption">Reference-video input with the dataset annotation.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">GPT-5.5</span><span class="task">5f9dc8e2</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/gpt55-detected-prompt/minimax_h3_gpt55_prompt.mp4"></video>
+          <div class="caption">Reference-video input with GPT-5.5 feedback.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Self</span><span class="task">6d29b412</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/demo3/blind-prompt/minimax_h3_blind_prompt.mp4"></video>
+          <div class="caption">Reference-video input with no explicit glitch annotation.</div>
+        </div></article>
+      </div>
+    </section>
+
+    <section class="notes" aria-label="Proposal notes">
+      <div>
+        <h2>Why This Proposal</h2>
+        <p>Current video editors can be prompted to alter scenes, but physical correction is more demanding: the model must preserve the original scene while identifying or following a physically grounded repair target. The demo separates correction with explicit feedback from self-correction without ground-truth feedback.</p>
+      </div>
+      <div>
+        <h2>Sample Feedback Signals</h2>
+        <ul>
+          <li>GT feedback: water-contact and cup-rim failures from Physion-Eval.</li>
+          <li>GPT-5.5 feedback: mug handle/body consistency detected from frames.</li>
+          <li>Self correction: generic instruction to repair physically unrealistic behavior.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const videos = Array.from(document.querySelectorAll('video'));
+    const runAll = document.getElementById('runAll');
+    const pauseAll = document.getElementById('pauseAll');
+    const resetAll = document.getElementById('resetAll');
+    const scrub = document.getElementById('globalScrub');
+    const currentTime = document.getElementById('currentTime');
+    const durationLabel = document.getElementById('duration');
+    const muteToggle = document.getElementById('muteToggle');
+    const statusLabel = document.getElementById('status');
+    let syncing = false;
+    let activeVideo = videos[0];
+
+    function finiteDuration(video) {
+      return Number.isFinite(video.duration) && video.duration > 0 ? video.duration : 0;
+    }
+
+    function maxDuration() {
+      return Math.max(...videos.map(finiteDuration), 0);
+    }
+
+    function formatTime(value) {
+      return `${value.toFixed(2)}s`;
+    }
+
+    function updateDurationLabel() {
+      durationLabel.textContent = formatTime(maxDuration());
+    }
+
+    function updateScrubFromVideo(video) {
+      if (syncing) return;
+      const duration = finiteDuration(video);
+      if (!duration) return;
+      const pct = Math.max(0, Math.min(1, video.currentTime / duration));
+      scrub.value = Math.round(pct * 1000);
+      currentTime.textContent = formatTime(video.currentTime);
+      activeVideo = video;
+    }
+
+    function seekAllFromScrub() {
+      syncing = true;
+      const pct = Number(scrub.value) / 1000;
+      videos.forEach(video => {
+        const duration = finiteDuration(video);
+        if (duration) video.currentTime = duration * pct;
+      });
+      const referenceDuration = finiteDuration(activeVideo) || maxDuration();
+      currentTime.textContent = formatTime(referenceDuration * pct);
+      window.requestAnimationFrame(() => { syncing = false; });
+    }
+
+    async function playAll() {
+      statusLabel.textContent = 'Playing';
+      videos.forEach(video => { video.muted = muteToggle.checked; });
+      for (const video of videos) {
+        try { await video.play(); }
+        catch (error) { statusLabel.textContent = 'Click Run all again'; }
+      }
+    }
+
+    function pauseVideos() {
+      videos.forEach(video => video.pause());
+      statusLabel.textContent = 'Paused';
+    }
+
+    function resetVideos() {
+      pauseVideos();
+      scrub.value = 0;
+      videos.forEach(video => { video.currentTime = 0; });
+      currentTime.textContent = '0.00s';
+      statusLabel.textContent = 'Reset';
+    }
+
+    videos.forEach(video => {
+      video.muted = true;
+      video.addEventListener('loadedmetadata', updateDurationLabel);
+      video.addEventListener('play', () => { activeVideo = video; });
+      video.addEventListener('timeupdate', () => updateScrubFromVideo(video));
+    });
+
+    runAll.addEventListener('click', playAll);
+    pauseAll.addEventListener('click', pauseVideos);
+    resetAll.addEventListener('click', resetVideos);
+    scrub.addEventListener('input', seekAllFromScrub);
+    muteToggle.addEventListener('change', () => {
+      videos.forEach(video => { video.muted = muteToggle.checked; });
+    });
+
+    updateDurationLabel();
+  </script>
+</body>
+</html>
