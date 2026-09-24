@@ -1,0 +1,7 @@
+{
+  "n_items": 100,
+  "n_errors": 0,
+  "errors": [],
+  "full_metadata": "/mnt/bn/embodied-lf3/masiyuan/WorldJudge/data/judgebench/physion_eval/Physion_Eval_20260322.json",
+  "binary_manifest": "/mnt/bn/embodied-lf3/masiyuan/v2en_repro/eval802_scoring_prep/physion_eval_test880_20260917/physion_eval_binary_test880_manifest.jsonl"
+}

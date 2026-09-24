@@ -1,0 +1,19 @@
+# Bytecode / local caches
+__pycache__/
+*.py[cod]
+
+# Local credentials / environments
+.env
+*.env
+*.key
+*.token
+
+# Provider status histories can contain temporary signed URLs.
+status_history.json
+status_latest.json
+submit_response.json
+
+# OS/editor noise
+.DS_Store
+.vscode/
+.idea/
