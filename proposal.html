@@ -207,6 +207,29 @@
       padding: 8px 8px 8px 4px;
     }
 
+    .experiment-intro {
+      margin: 26px 0 18px;
+      padding: 18px 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .experiment-intro h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .experiment-intro p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 1160px;
+    }
+
     .section-label {
       color: var(--accent-2);
       font-size: 12px;
@@ -263,6 +286,11 @@
     .matrix-head, .video-row {
       display: grid;
       grid-template-columns: 168px repeat(3, minmax(0, 1fr));
+    }
+
+    .matrix-wrap.two-prompt .matrix-head,
+    .matrix-wrap.two-prompt .video-row {
+      grid-template-columns: 168px repeat(2, minmax(0, 1fr));
     }
 
     .matrix-head {
@@ -428,6 +456,7 @@
       .original-wrap { grid-template-columns: 1fr; }
       .matrix-wrap { overflow-x: auto; }
       .matrix-head, .video-row { grid-template-columns: 138px repeat(3, minmax(280px, 1fr)); min-width: 980px; }
+      .matrix-wrap.two-prompt .matrix-head, .matrix-wrap.two-prompt .video-row { grid-template-columns: 138px repeat(2, minmax(300px, 1fr)); min-width: 760px; }
       .matrix-head { top: 116px; }
       .notes { grid-template-columns: 1fr; }
     }
@@ -449,18 +478,18 @@
         <div>
           <div class="eyebrow">Proposal Demo</div>
           <h1 id="title">Physical Self-Correction</h1>
-          <p class="subtitle">A video-editing benchmark probe for whether generative video models can identify and correct physical glitches. This page compares three models under three feedback settings on the same Physion-Eval sample.</p>
+          <p class="subtitle">A video-editing benchmark probe for whether generative video models can identify and correct physical glitches without rewriting scenes unnecessarily. This page compares three models on a glitch-repair sample and a no-issue robustness sample.</p>
         </div>
       </section>
 
       <aside class="brief" aria-label="Demo summary">
         <div class="metric-row">
           <div class="metric"><div class="value">3</div><div class="label">Editing models</div></div>
-          <div class="metric"><div class="value">3</div><div class="label">Feedback settings</div></div>
-          <div class="metric"><div class="value">9</div><div class="label">Comparable outputs</div></div>
+          <div class="metric"><div class="value">2</div><div class="label">Benchmark probes</div></div>
+          <div class="metric"><div class="value">15</div><div class="label">Comparable outputs</div></div>
         </div>
-        <p><strong>Sample:</strong> Physion-Eval #3, a sink-and-mug scene from the 100-sample demo package.</p>
-        <p><strong>Comparison:</strong> GT feedback gives the dataset glitch annotation; GPT-5.5 feedback uses a model-detected Physion-style annotation; self correction gives only a generic physical-repair instruction.</p>
+        <p><strong>Repair sample:</strong> Physion-Eval #3, a sink-and-mug scene with a contact / interaction failure.</p>
+        <p><strong>No-issue sample:</strong> T1_00106, a kitchen spreading clip marked realistic. GPT-5.5 says no issue under normal checking, but can be induced to hallucinate a subtle contact problem.</p>
       </aside>
     </header>
 
@@ -578,10 +607,98 @@
       </div>
     </section>
 
+    <section class="experiment-intro" aria-label="No-issue robustness summary">
+      <div class="section-label">No-issue robustness check</div>
+      <h2>Does self-correction over-edit a realistic video?</h2>
+      <p>The source clip is labeled realistic and normal GPT-5.5 checking returns no physical issue. We then compare two stress settings: a low-confidence GPT-5.5 hallucinated contact/deformation complaint, and the same blind self-correction prompt used above. This is a preliminary qualitative check, not a quantitative benchmark claim.</p>
+      <div class="original-meta">
+        <span class="pill">T1_00106</span>
+        <span class="pill">REALISTIC / no glitch</span>
+        <span class="pill">Kitchen spreading clip</span>
+      </div>
+    </section>
+
+    <section class="original-wrap" aria-label="No-issue original video">
+      <div class="original-copy">
+        <div class="section-label">No-issue input</div>
+        <h2>Video that should stay unchanged</h2>
+        <p>A first-person kitchen clip where a knife spreads yellow margarine or butter from a tub onto bread. The point is to test whether correction prompts preserve plausible content instead of inventing repairs.</p>
+      </div>
+      <div class="original-video">
+        <video controls playsinline preload="metadata" src="assets/videos/noissue/original/T1_00106_gt_noissue_kitchen_spread.mp4"></video>
+        <div class="caption">Original no-issue video used for both robustness prompts.</div>
+      </div>
+    </section>
+
+    <section class="matrix-wrap two-prompt" aria-label="No-issue robustness video grid">
+      <div class="matrix-head">
+        <div class="corner">Model × Prompt</div>
+        <div class="col-head">
+          <h2>Hallucinated feedback</h2>
+          <p>GPT-5.5 is induced to report a subtle knife / margarine / tub-rim contact issue.</p>
+        </div>
+        <div class="col-head">
+          <h2>Blind self correction</h2>
+          <p>No annotation is given; the editor receives only the generic physical-repair prompt.</p>
+        </div>
+      </div>
+
+      <div class="video-row">
+        <div class="row-head">
+          <h3>Wan2.7</h3>
+          <p>Smallest frame drift in this no-issue check.</p>
+        </div>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Hallucinated</span><span class="task">0703a0a5</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/noissue/hallucinated-feedback/wan27_hallucinated_feedback.mp4"></video>
+          <div class="caption">Mean sampled RGB diff vs original: 0.0283.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Blind</span><span class="task">2c80c393</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/noissue/blind-self-correction/wan27_blind_self_correction.mp4"></video>
+          <div class="caption">Mean sampled RGB diff vs original: 0.0375.</div>
+        </div></article>
+      </div>
+
+      <div class="video-row">
+        <div class="row-head">
+          <h3>Wan3.0</h3>
+          <p>Mostly preserves the original action and layout.</p>
+        </div>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Hallucinated</span><span class="task">df151a3b</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/noissue/hallucinated-feedback/wan30_hallucinated_feedback.mp4"></video>
+          <div class="caption">Mean sampled RGB diff vs original: 0.0342.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Blind</span><span class="task">b90e9064</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/noissue/blind-self-correction/wan30_blind_self_correction.mp4"></video>
+          <div class="caption">Mean sampled RGB diff vs original: 0.0358.</div>
+        </div></article>
+      </div>
+
+      <div class="video-row">
+        <div class="row-head">
+          <h3>MiniMax-H3</h3>
+          <p>More visible restyling and temporal drift than the Wan models.</p>
+        </div>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Hallucinated</span><span class="task">2dc54120</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/noissue/hallucinated-feedback/minimax_h3_hallucinated_feedback.mp4"></video>
+          <div class="caption">Mean sampled RGB diff vs original: 0.0456.</div>
+        </div></article>
+        <article class="cell"><div class="video-card">
+          <div class="card-top"><span class="tag">Blind</span><span class="task">54b56333</span></div>
+          <video controls playsinline preload="metadata" src="assets/videos/noissue/blind-self-correction/minimax_h3_blind_self_correction.mp4"></video>
+          <div class="caption">Mean sampled RGB diff vs original: 0.0557.</div>
+        </div></article>
+      </div>
+    </section>
+
     <section class="notes" aria-label="Proposal notes">
       <div>
         <h2>Why This Proposal</h2>
-        <p>Current video editors can be prompted to alter scenes, but physical correction is more demanding: the model must preserve the original scene while identifying or following a physically grounded repair target. The demo separates correction with explicit feedback from self-correction without ground-truth feedback.</p>
+        <p>Current video editors can be prompted to alter scenes, but physical correction is more demanding: the model must preserve the original scene while identifying or following a physically grounded repair target. The demos separate explicit repair, blind self-correction, and no-op preservation under hallucinated feedback.</p>
       </div>
       <div>
         <h2>Sample Feedback Signals</h2>
@@ -589,6 +706,7 @@
           <li>GT feedback: water-contact and cup-rim failures from Physion-Eval.</li>
           <li>GPT-5.5 feedback: mug handle/body consistency detected from frames.</li>
           <li>Self correction: generic instruction to repair physically unrealistic behavior.</li>
+          <li>No-issue robustness: realistic kitchen input should remain stable even when feedback is noisy or absent.</li>
         </ul>
       </div>
     </section>
