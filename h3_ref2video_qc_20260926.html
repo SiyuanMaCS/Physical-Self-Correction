@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniMax-H3 Ref2Video QC</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f6f8;
+  --panel: #ffffff;
+  --ink: #17202a;
+  --muted: #5b6673;
+  --line: #d7dee7;
+  --ok: #157a55;
+  --warn: #8a5a00;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+main {
+  width: min(1440px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 28px 0 48px;
+}
+header, section {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+header {
+  padding: 24px;
+  margin-bottom: 18px;
+}
+h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+p {
+  margin: 8px 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.metric {
+  border: 1px solid var(--line);
+  background: #f8fafc;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+.metric b {
+  display: block;
+  font-size: 18px;
+}
+.metric span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.source, .card {
+  padding: 18px;
+  margin: 18px 0;
+}
+.card {
+  border-left: 6px solid var(--ok);
+}
+.card h2, .source h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  letter-spacing: 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+  margin-top: 14px;
+}
+video, img {
+  width: 100%;
+  border: 1px solid #cbd3dc;
+  background: #111;
+}
+video {
+  aspect-ratio: 16 / 9;
+}
+img {
+  display: block;
+}
+.label {
+  margin: 0 0 6px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 700;
+}
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.badge {
+  padding: 6px 8px;
+  border: 1px solid #b9c7d5;
+  background: #f8fafc;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.badge.ok { color: var(--ok); border-color: #9ac8b7; background: #f0faf6; }
+.code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  color: #334155;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 900px) {
+  .summary, .grid { grid-template-columns: 1fr; }
+  h1 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>MiniMax-H3 Ref2Video QC</h1>
+  <p>End-to-end smoke check for MiniMax-H3 with reference-video conditioning. GPT-5.5 judged the generated videos for basic usability: decodable video, non-static motion, no noise collapse, and preservation of the reference scene.</p>
+  <div class="summary">
+    <div class="metric"><b>3 / 3</b><span>GPT-5.5 usable smoke pass</span></div>
+    <div class="metric"><b>124</b><span>frames per output</span></div>
+    <div class="metric"><b>1344 x 768</b><span>output resolution</span></div>
+    <div class="metric"><b>24 fps</b><span>output frame rate</span></div>
+  </div>
+</header>
+
+<section class="source">
+  <h2>Reference Input</h2>
+  <p class="code">assets/h3_ref2video_qc_20260926/source_demo3_original.mp4</p>
+  <video controls preload="metadata" src="assets/h3_ref2video_qc_20260926/source_demo3_original.mp4"></video>
+</section>
+
+<section class="card">
+  <h2>Specific Physical-Fix Prompt</h2>
+  <p>GPT-5.5: Generated output is a normal usable video. It preserves the sink, hands, cup, camera angle, lighting, and shows coherent temporal motion without blank frames, noise collapse, or severe corruption.</p>
+  <div class="badges">
+    <span class="badge ok">usable_ref2video_smoke=true</span>
+    <span class="badge ok">not_noise_texture_collapse=true</span>
+    <span class="badge ok">preserves_reference_scene=true</span>
+    <span class="badge">quality=acceptable</span>
+  </div>
+  <div class="grid">
+    <div>
+      <p class="label">Generated video</p>
+      <video controls preload="metadata" src="assets/h3_ref2video_qc_20260926/minimaxh3_specific_prompt.mp4"></video>
+    </div>
+    <div>
+      <p class="label">GPT-5.5 QC sheet</p>
+      <img src="assets/h3_ref2video_qc_20260926/minimax_h3_reference_video_specific_prompt.jpg" alt="Specific prompt source/output frame sheet">
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Blind Physical-Fix Prompt</h2>
+  <p>GPT-5.5: Generated output is a normal coherent video sequence matching the reference kitchen sink scene, with visible hand and mug motion across frames and no collapse or corruption.</p>
+  <div class="badges">
+    <span class="badge ok">usable_ref2video_smoke=true</span>
+    <span class="badge ok">not_static_or_blank=true</span>
+    <span class="badge ok">has_temporal_motion=true</span>
+    <span class="badge">quality=good</span>
+  </div>
+  <div class="grid">
+    <div>
+      <p class="label">Generated video</p>
+      <video controls preload="metadata" src="assets/h3_ref2video_qc_20260926/minimaxh3_blind_prompt.mp4"></video>
+    </div>
+    <div>
+      <p class="label">GPT-5.5 QC sheet</p>
+      <img src="assets/h3_ref2video_qc_20260926/minimax_h3_reference_video_blind_prompt.jpg" alt="Blind prompt source/output frame sheet">
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>GPT-5.5-Derived Prompt</h2>
+  <p>GPT-5.5: Generated output is a normal, coherent video sequence preserving the kitchen sink scene, hands, faucet, dishes, and mug washing action with visible temporal motion. It is not blank, static, noisy, or corrupted.</p>
+  <div class="badges">
+    <span class="badge ok">usable_ref2video_smoke=true</span>
+    <span class="badge ok">not_noise_texture_collapse=true</span>
+    <span class="badge ok">preserves_reference_scene=true</span>
+    <span class="badge">quality=acceptable</span>
+  </div>
+  <div class="grid">
+    <div>
+      <p class="label">Generated video</p>
+      <video controls preload="metadata" src="assets/h3_ref2video_qc_20260926/minimaxh3_gpt55_prompt.mp4"></video>
+    </div>
+    <div>
+      <p class="label">GPT-5.5 QC sheet</p>
+      <img src="assets/h3_ref2video_qc_20260926/minimax_h3_reference_video_gpt55_prompt.jpg" alt="GPT-5.5 prompt source/output frame sheet">
+    </div>
+  </div>
+</section>
+
+<section class="source">
+  <h2>Artifacts</h2>
+  <p class="code">metadata/h3_ref2video_qc_20260926/summary.json</p>
+  <p class="code">Local reusable scripts: h3_ref2video_dashscope_20260926.py and h3_ref2video_gpt55_qc_20260926.py</p>
+</section>
+</main>
+</body>
+</html>
