@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PhysFix Training Data QC</title>
+<style>
+body { margin:0; font-family: Inter, Arial, sans-serif; background:#f2f4f7; color:#18212b; }
+main { width:min(1440px, calc(100vw - 32px)); margin:0 auto; padding:28px 0 44px; }
+header, .card { background:#fff; border:1px solid #d7dde5; box-shadow:0 10px 24px rgba(24,33,43,.08); }
+header { padding:24px; margin-bottom:18px; }
+h1 { margin:0 0 10px; font-size:42px; letter-spacing:0; }
+p { color:#4f5b68; line-height:1.45; }
+.summary { display:flex; gap:12px; flex-wrap:wrap; }
+.pill { border:1px solid #c7d0da; background:#f7f9fb; padding:8px 10px; font-weight:700; }
+.card { margin:18px 0; padding:18px; border-left:6px solid #8c98a6; }
+.card.pass { border-left-color:#157a55; }
+.card.reject { border-left-color:#b6422b; }
+h2 { margin:0 0 8px; font-size:22px; }
+h2 span { color:#66717e; font-size:14px; font-weight:600; }
+.videos { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; margin:14px 0; }
+video, img { width:100%; background:#111; border:1px solid #cbd3dc; }
+h3 { margin:0 0 6px; font-size:14px; color:#334; }
+@media (max-width: 820px) { .videos { grid-template-columns:1fr; } h1 { font-size:30px; } }
+</style>
+</head>
+<body><main>
+<header>
+<h1>PhysFix Training Data QC</h1>
+<p>GPT-5.5 quality check before any MiniMax-H3 LoRA training. Source candidate should contain a useful physical glitch while preserving scene identity; target should be the clean reference.</p>
+<div class="summary"><div class="pill">Samples: 26</div><div class="pill">GPT-5.5 suitable: 7</div><div class="pill">Model: gpt-5.5-2026-04-24</div></div>
+</header>
+
+<section class="card pass">
+  <div class="meta">
+    <h2>class1_000 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_v1_1000</p>
+    <p><b>GPT-5.5:</b> suitable=True; glitch=True; scene_preserved=True; target_cleaner=True; severity=mild</p>
+    <p><b>Main assessment:</b> abrupt temporal jump/discontinuity in the hand and cloth wiping motion</p>
+    <p><b>Reject reason:</b> </p>
+    <p><b>Prompt:</b> Restore the video by removing the abrupt temporal jump. Preserve the original scene, objects, camera motion, and action timing.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_000_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_000_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_000_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class1_001 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_v1_1000</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=True; target_cleaner=False; severity=none</p>
+    <p><b>Main assessment:</b> No clear frozen segment or sudden jump is visible; source and target appear essentially the same.</p>
+    <p><b>Reject reason:</b> Source is essentially unchanged and lacks a visible physical glitch.</p>
+    <p><b>Prompt:</b> Restore natural continuous motion by fixing the frozen segment and sudden jump. Preserve all unrelated content.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_001_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_001_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_001_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card pass">
+  <div class="meta">
+    <h2>class1_002 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_v1_1000</p>
+    <p><b>GPT-5.5:</b> suitable=True; glitch=True; scene_preserved=True; target_cleaner=True; severity=medium</p>
+    <p><b>Main assessment:</b> localized duplicated/teleported pale patch in the upper-right appliance/background area</p>
+    <p><b>Reject reason:</b> </p>
+    <p><b>Prompt:</b> Restore the video by removing the duplicated or teleported local patch while keeping the original scene unchanged.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_002_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_002_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_002_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card pass">
+  <div class="meta">
+    <h2>class1_003 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_v1_1000</p>
+    <p><b>GPT-5.5:</b> suitable=True; glitch=True; scene_preserved=True; target_cleaner=True; severity=medium</p>
+    <p><b>Main assessment:</b> Localized dark dropout/mosaic-like corruption obscures parts of the hand/utensil area near the sink while the clean reference preserves the scene.</p>
+    <p><b>Reject reason:</b> </p>
+    <p><b>Prompt:</b> Restore the local region corrupted by mosaic/dropout so the object appearance is physically consistent with the clean video.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_003_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_003_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_003_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card pass">
+  <div class="meta">
+    <h2>class1_004 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_wisa_v1_100</p>
+    <p><b>GPT-5.5:</b> suitable=True; glitch=True; scene_preserved=True; target_cleaner=True; severity=mild</p>
+    <p><b>Main assessment:</b> Subtle abrupt temporal jump/timing mismatch in the source while the scene content remains the same</p>
+    <p><b>Reject reason:</b> </p>
+    <p><b>Prompt:</b> Restore the video by removing the abrupt temporal jump. Preserve the original scene, objects, camera motion, and action timing.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_004_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_004_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_004_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card pass">
+  <div class="meta">
+    <h2>class1_005 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_wisa_v1_100</p>
+    <p><b>GPT-5.5:</b> suitable=True; glitch=True; scene_preserved=True; target_cleaner=True; severity=mild</p>
+    <p><b>Main assessment:</b> Small artificial rectangular occluder block over the tree canopy in the source</p>
+    <p><b>Reject reason:</b> </p>
+    <p><b>Prompt:</b> Restore the video by removing the artificial occluder block and recovering the underlying clean appearance.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_005_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_005_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_005_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card pass">
+  <div class="meta">
+    <h2>class1_006 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_wisa_v1_100</p>
+    <p><b>GPT-5.5:</b> suitable=True; glitch=True; scene_preserved=True; target_cleaner=True; severity=medium</p>
+    <p><b>Main assessment:</b> localized rectangular mosaic/dropout blocks on the object surface</p>
+    <p><b>Reject reason:</b> </p>
+    <p><b>Prompt:</b> Restore the local region corrupted by mosaic/dropout so the object appearance is physically consistent with the clean video.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_006_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_006_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_006_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card pass">
+  <div class="meta">
+    <h2>class1_007 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_wisa_v1_chunk051_075_50_v2</p>
+    <p><b>GPT-5.5:</b> suitable=True; glitch=True; scene_preserved=True; target_cleaner=True; severity=medium</p>
+    <p><b>Main assessment:</b> Abrupt temporal/action-state jump in the source: light colors and hand position timing do not follow the clean reference smoothly.</p>
+    <p><b>Reject reason:</b> </p>
+    <p><b>Prompt:</b> Restore the video by removing the abrupt temporal jump. Preserve the original scene, objects, camera motion, and action timing.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_007_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_007_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_007_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class1_008 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_wisa_v1_chunk051_075_50_v2</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=True; target_cleaner=False; severity=none</p>
+    <p><b>Main assessment:</b> Temporal difference is subtle and the source still appears physically plausible, with no clear visible glitch.</p>
+    <p><b>Reject reason:</b> Source is not visibly corrupted and target is not meaningfully cleaner.</p>
+    <p><b>Prompt:</b> Restore the causal order by undoing the reversed segment while preserving the same scene and action.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_008_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_008_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_008_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class1_009 <span>1_algorithmic_manual_corruption</span></h2>
+    <p><b>Dataset:</b> physfix_ref2v_synthetic_wisa_v1_chunk051_075_50_v2</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=True; scene_preserved=False; target_cleaner=False; severity=mild</p>
+    <p><b>Main assessment:</b> Source contains a small artificial green occluder, but later target frames include a hand/object motion absent from the source.</p>
+    <p><b>Reject reason:</b> Target is not a temporally matched clean reference; scene dynamics differ too much.</p>
+    <p><b>Prompt:</b> Restore the video by removing the artificial occluder block and recovering the underlying clean appearance.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_009_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class1_009_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class1_009_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class3_000 <span>3_prompted_model_corruption</span></h2>
+    <p><b>Dataset:</b> epic_kitchens</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=False; target_cleaner=True; severity=too_destructive</p>
+    <p><b>Main assessment:</b> Source frames are almost entirely obscured by gray visual corruption rather than a subtle physical contact/slip glitch.</p>
+    <p><b>Reject reason:</b> Source does not preserve scene identity and would teach destructive visual edits, not physical-glitch restoration.</p>
+    <p><b>Prompt:</b> Create a realistic corrupted version of the reference video by adding one subtle physical inconsistency: an object or hand should briefly slide or slip through contact instead of obeying contact/friction. Keep the scene, identity, camera, and overall action unchanged. The artifact should be visible but not extreme.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_000_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_000_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class3_000_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class3_009 <span>3_prompted_model_corruption</span></h2>
+    <p><b>Dataset:</b> epic_kitchens</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=False; target_cleaner=True; severity=too_destructive</p>
+    <p><b>Main assessment:</b> Source frames are nearly uniform noisy/blank gray-brown images with the kitchen scene completely lost.</p>
+    <p><b>Reject reason:</b> Source does not preserve scene identity and is not a plausible local physical motion freeze/jump glitch.</p>
+    <p><b>Prompt:</b> Create a realistic corrupted version of the reference video by making a small local motion freeze and then jump forward, while preserving the original scene, camera, objects, and action. The physical error should look like a plausible video-generation glitch, not a stylized effect.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_009_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_009_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class3_009_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class3_018 <span>3_prompted_model_corruption</span></h2>
+    <p><b>Dataset:</b> epic_kitchens</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=False; target_cleaner=True; severity=too_destructive</p>
+    <p><b>Main assessment:</b> Source frames are almost entirely obscured/blank and do not show the kitchen scene or a localized physical teleport glitch.</p>
+    <p><b>Reject reason:</b> Source destroys scene identity and represents non-physical global corruption rather than a realistic object/body-part displacement.</p>
+    <p><b>Prompt:</b> Create a realistic corrupted version of the reference video where one salient object or body part makes a brief impossible displacement or teleport over a few frames. Keep the rest of the video as close as possible to the reference.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_018_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_018_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class3_018_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class3_027 <span>3_prompted_model_corruption</span></h2>
+    <p><b>Dataset:</b> epic_kitchens</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=True; scene_preserved=False; target_cleaner=True; severity=too_destructive</p>
+    <p><b>Main assessment:</b> Source frames are almost entirely obscured by a flat noisy/blurred texture, losing the kitchen scene and objects.</p>
+    <p><b>Reject reason:</b> Corruption is too destructive and does not preserve scene identity or represent a mild physical shape deformation.</p>
+    <p><b>Prompt:</b> Create a realistic corrupted version of the reference video with a mild temporary shape deformation on one moving object or body part. Preserve the scene, lighting, camera motion, and action timing; do not change the video into a new scene.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_027_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_027_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class3_027_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class3_035 <span>3_prompted_model_corruption</span></h2>
+    <p><b>Dataset:</b> wisa</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=False; target_cleaner=True; severity=too_destructive</p>
+    <p><b>Main assessment:</b> Source frames are almost entirely obscured by noise/static rather than a localized physical occlusion or layering glitch.</p>
+    <p><b>Reject reason:</b> Scene identity is not preserved and corruption is destructive/non-physical.</p>
+    <p><b>Prompt:</b> Create a realistic corrupted version of the reference video with a brief physically inconsistent occlusion or layering error, such as an object appearing in front when it should be behind. Keep the artifact moderate and localized.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_035_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_035_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class3_035_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class3_044 <span>3_prompted_model_corruption</span></h2>
+    <p><b>Dataset:</b> wisa</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=False; target_cleaner=True; severity=too_destructive</p>
+    <p><b>Main assessment:</b> Source frames are almost entirely obscured by dark noise/texture rather than a localized physical support or gravity glitch.</p>
+    <p><b>Reject reason:</b> Scene identity is not preserved and corruption is destructive/non-physical.</p>
+    <p><b>Prompt:</b> Create a realistic corrupted version of the reference video with one short support or gravity inconsistency, such as an object hovering slightly or failing to rest naturally, while keeping all unrelated content unchanged.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_044_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_044_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class3_044_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class3_053 <span>3_prompted_model_corruption</span></h2>
+    <p><b>Dataset:</b> wisa</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=False; target_cleaner=True; severity=too_destructive</p>
+    <p><b>Main assessment:</b> Source frames are almost entirely replaced by a dark gray texture with no visible Ferris wheel or scene content.</p>
+    <p><b>Reject reason:</b> Source does not preserve scene identity and the corruption is destructive rather than a realistic mild physical glitch.</p>
+    <p><b>Prompt:</b> Create a realistic corrupted version of the reference video with a mild shadow, reflection, or mirror-motion mismatch. Keep the action and scene otherwise faithful to the reference video.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_053_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_053_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class3_053_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class3_062 <span>3_prompted_model_corruption</span></h2>
+    <p><b>Dataset:</b> wisa</p>
+    <p><b>GPT-5.5:</b> suitable=False; glitch=False; scene_preserved=False; target_cleaner=True; severity=too_destructive</p>
+    <p><b>Main assessment:</b> Source is dominated by full-frame noise/texture and the beach scene is not recognizable.</p>
+    <p><b>Reject reason:</b> Corruption destroys scene identity and is not a local physical glitch.</p>
+    <p><b>Prompt:</b> Create a realistic corrupted version of the reference video where one moving object briefly violates trajectory continuity or cause-and-effect. The output should still look like the same video with only a local physical glitch.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_062_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class3_062_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class3_062_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class2_000 <span>2_indomain_minimax_fix_candidate</span></h2>
+    <p><b>Dataset:</b> Kling 2.5</p>
+    <p><b>GPT-5.5:</b> fixed=False; preserved=False; new_artifacts=True; quality=none</p>
+    <p><b>Main assessment:</b> The candidate output loses the entire sink, hands, plates, and water scene, becoming a blurry gray texture rather than a plausible physical correction.</p>
+    <p><b>Reject reason:</b> Candidate does not preserve scene identity and introduces severe visual artifacts/noise.</p>
+    <p><b>Prompt:</b> Edit this video to fix the physically unrealistic behavior. Annotated issue category: Contact / Interaction Failure. Annotated issue: Visual anomalies: Overall intuition is abnormal (in the video, the water in the first plate is constantly boiling without increasing or overflowing, while the water in the bottom plate continuously increases); physical behavior (at 4.6s, the finger clearly passes through the plate, which does not conform to the principle that solids are impermeable).. Make the motion, object interactions, material state, object permanence, and causal order physically plausible. Preserve the same camera, scene, person, objects, lighting, timing, and unrelated content as much as possible.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_000_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_000_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class2_000_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class2_027 <span>2_indomain_minimax_fix_candidate</span></h2>
+    <p><b>Dataset:</b> Sora 2</p>
+    <p><b>GPT-5.5:</b> fixed=False; preserved=False; new_artifacts=True; quality=none</p>
+    <p><b>Main assessment:</b> The original shows the annotated material/state inconsistencies, but the candidate output collapses into a murky noisy texture with the ray, water surface, pool grid, and scene details essentially lost.</p>
+    <p><b>Reject reason:</b> Candidate does not preserve scene identity and introduces major noise/artifacting instead of visibly fixing the physical issue.</p>
+    <p><b>Prompt:</b> Edit this video to fix the physically unrealistic behavior. Annotated issue category: Material / State Inconsistency. Annotated issue: The video is abnormal: the timing is not continuous (the water droplets change color from blue to transparent and there are many regular grid-like lines in the water; the color of the ray in the water changes from black to reddish-brown); the overall realism is abnormal (the ray&#x27;s tail should swing when it swims, and the tail of a real ray is thicker and shorter than that in the video).. Make the motion, object interactions, material state, object permanence, and causal order physically plausible. Preserve the same camera, scene, person, objects, lighting, timing, and unrelated content as much as possible.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_027_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_027_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class2_027_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class2_055 <span>2_indomain_minimax_fix_candidate</span></h2>
+    <p><b>Dataset:</b> Sora 2</p>
+    <p><b>GPT-5.5:</b> fixed=False; preserved=False; new_artifacts=True; quality=none</p>
+    <p><b>Main assessment:</b> The candidate output collapses into a blurry noise/texture field and removes the skull, gun, table, and scene content entirely rather than correcting the unrealistic head motion.</p>
+    <p><b>Reject reason:</b> Candidate destroys scene identity and introduces major visual artifacts, with no visible physical-motion fix.</p>
+    <p><b>Prompt:</b> Edit this video to fix the physically unrealistic behavior. Annotated issue category: Force &amp; Motion Inconsistency. Annotated issue: The video is abnormal: physical behavior (the head model is shot off by a bullet and flies to the right of the video, but from 3.5s to 8s the head model moves to the left of the video without being subjected to a force to the left, which does not conform to the law of inertia).. Make the motion, object interactions, material state, object permanence, and causal order physically plausible. Preserve the same camera, scene, person, objects, lighting, timing, and unrelated content as much as possible.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_055_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_055_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class2_055_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class2_082 <span>2_indomain_minimax_fix_candidate</span></h2>
+    <p><b>Dataset:</b> Wan 2.2</p>
+    <p><b>GPT-5.5:</b> fixed=False; preserved=False; new_artifacts=True; quality=none</p>
+    <p><b>Main assessment:</b> The candidate output is mostly a gray/noisy texture and does not preserve the kitchen scene, hands, basin, or motion.</p>
+    <p><b>Reject reason:</b> Candidate destroys the scene identity and replaces the video with noise/texture rather than fixing the temporal coherence issues.</p>
+    <p><b>Prompt:</b> Edit this video to fix the physically unrealistic behavior. Annotated issue category: Temporal Coherence Breakdown. Annotated issue: [&#x27;Time continuity: In the video, between 0.2s and 3s, the right thumb appears to merge with the edge of the basin in the hand.&#x27;, &#x27;Time continuity: When picking up the basin with both hands between 0s and 1s, twisting and artifacts appear on the fingers of both hands.&#x27;, &#x27;Time continuity: From 0s to 5s, the numbers on the object in the upper left corner continuously jump and distort.&#x27;]. Make the motion, object interactions, material state, object permanence, and causal order physically plausible. Preserve the same camera, scene, person, objects, lighting, timing, and unrelated content as much as possible.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_082_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_082_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class2_082_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class2_109 <span>2_indomain_minimax_fix_candidate</span></h2>
+    <p><b>Dataset:</b> Hailuo 2.3</p>
+    <p><b>GPT-5.5:</b> fixed=False; preserved=False; new_artifacts=True; quality=overedited</p>
+    <p><b>Main assessment:</b> The original shows the yellow liquid with persistent dense bubbling, but the candidate output has collapsed into gray noisy texture and no longer shows the glass or liquid scene.</p>
+    <p><b>Reject reason:</b> Candidate destroys scene identity and becomes mostly noise/texture rather than plausibly fixing the bubbling issue.</p>
+    <p><b>Prompt:</b> Edit this video to fix the physically unrealistic behavior. Annotated issue category: Material / State Inconsistency. Annotated issue: The video is abnormal: the timing is continuous (the yellow liquid in the video keeps producing a large number of regular bubbles without any external interference).. Make the motion, object interactions, material state, object permanence, and causal order physically plausible. Preserve the same camera, scene, person, objects, lighting, timing, and unrelated content as much as possible.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_109_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_109_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class2_109_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class2_136 <span>2_indomain_minimax_fix_candidate</span></h2>
+    <p><b>Dataset:</b> Hailuo 2.3</p>
+    <p><b>GPT-5.5:</b> fixed=False; preserved=False; new_artifacts=True; quality=none</p>
+    <p><b>Main assessment:</b> The original shows the cup being poured into while appearing already full, but the candidate output is almost entirely gray noisy texture with the scene removed.</p>
+    <p><b>Reject reason:</b> Candidate destroys scene identity and introduces severe noise/artifacts instead of fixing the liquid behavior.</p>
+    <p><b>Prompt:</b> Edit this video to fix the physically unrealistic behavior. Annotated issue category: Material / State Inconsistency. Annotated issue: The visuals and physical behavior are abnormal (at 1.5s, the milk level in the cup is already at the rim and appears to be full, but subsequent pouring of milk does not cause overflow or a rise in the liquid level, which violates the laws of liquid flow).. Make the motion, object interactions, material state, object permanence, and causal order physically plausible. Preserve the same camera, scene, person, objects, lighting, timing, and unrelated content as much as possible.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_136_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_136_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class2_136_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class2_164 <span>2_indomain_minimax_fix_candidate</span></h2>
+    <p><b>Dataset:</b> Veo 3.1 Fast</p>
+    <p><b>GPT-5.5:</b> fixed=False; preserved=False; new_artifacts=True; quality=none</p>
+    <p><b>Main assessment:</b> The candidate output is mostly noisy texture and does not preserve the sandbox, toy car, bridge, or motion continuity, so it cannot be judged as a valid physical fix.</p>
+    <p><b>Reject reason:</b> Candidate destroys scene identity and replaces the video with noise rather than fixing the bridge continuity issue.</p>
+    <p><b>Prompt:</b> Edit this video to fix the physically unrealistic behavior. Annotated issue category: Force &amp; Motion Inconsistency. Annotated issue: Visual anomaly: timing and continuity (2.7s, 3.9s: the car reaches the end of the bridge and suddenly the bridge appears).. Make the motion, object interactions, material state, object permanence, and causal order physically plausible. Preserve the same camera, scene, person, objects, lighting, timing, and unrelated content as much as possible.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_164_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_164_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class2_164_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+<section class="card reject">
+  <div class="meta">
+    <h2>class2_191 <span>2_indomain_minimax_fix_candidate</span></h2>
+    <p><b>Dataset:</b> Kling 2.5</p>
+    <p><b>GPT-5.5:</b> fixed=False; preserved=False; new_artifacts=True; quality=none</p>
+    <p><b>Main assessment:</b> The original shows the cooking scene with a visible object continuity problem, but the candidate output collapses into dark noisy texture and no longer shows the wok, food, or cooking action.</p>
+    <p><b>Reject reason:</b> Candidate does not preserve the scene and becomes mostly noise/texture rather than fixing the object permanence issue.</p>
+    <p><b>Prompt:</b> Edit this video to fix the physically unrealistic behavior. Annotated issue category: Object Permanence Violation. Annotated issue: Abnormal video footage: Time continuity (at 3.4 seconds into the video, without any change in camera angle, the chicken feet above the pot suddenly turned into slices of meat).. Make the motion, object interactions, material state, object permanence, and causal order physically plausible. Preserve the same camera, scene, person, objects, lighting, timing, and unrelated content as much as possible.</p>
+  </div>
+  <div class="videos">
+    <div><h3>Source candidate</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_191_source.mp4"></video></div>
+    <div><h3>Clean target</h3><video controls preload="metadata" src="assets/physfix_qc_20260925/class2_191_target.mp4"></video></div>
+  </div>
+  <img src="assets/physfix_qc_20260925/class2_191_sheet.jpg" alt="sampled comparison sheet">
+</section>
+
+</main></body></html>
