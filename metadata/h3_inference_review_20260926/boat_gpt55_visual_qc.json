@@ -1,0 +1,36 @@
+{
+  "sample_id": "002_T1_08173",
+  "qc_agent": "gpt55_visual_qc",
+  "visual_inputs_reviewed": [
+    "source_vs_fastvideo_contact_sheet.jpg",
+    "target_events_contact_sheet.jpg",
+    "/tmp/002_T1_08173_src_target_boat_ship_crop_x3.jpg",
+    "/tmp/002_T1_08173_out_target_boat_ship_crop_x3.jpg"
+  ],
+  "target": "Before 1s the small-boat passengers should appear continuously, the green vest should remain green, and the jumper from the large ship should not disappear after 4.9s.",
+  "normal_video": {
+    "verdict": "PASS",
+    "evidence": "The output row is a normal, clear harbor/boat video across the full contact sheet, with coherent motion and no global corruption."
+  },
+  "scene_retention": {
+    "verdict": "PASS",
+    "evidence": "The sea wall, water, large vessel, crane/gantry structure, small red boat, camera angle, lighting, and overall boat motion are preserved closely."
+  },
+  "target_fix": {
+    "verdict": "PASS",
+    "evidence": "In target frames out f22/f24/f26, the small-boat occupants are already visible continuously rather than popping in at 1s. In out f106/f108/f110 and out f116/f118/f120, a green/yellow-green vest remains visible on the small boat, and the person/activity near the large ship side remains present after the jump window instead of vanishing into an empty area."
+  },
+  "artifacts": {
+    "verdict": "PASS",
+    "evidence": "There is mild far-distance person softness and small-scale identity detail blur, but no obvious new objects, stylization, severe color shift, or scene-breaking artifacts."
+  },
+  "training_usability": {
+    "verdict": "PASS",
+    "evidence": "The output preserves the source scene while making the target object-permanence cues more continuous; it is usable for training, with expected limitations from tiny distant people."
+  },
+  "conclusion": {
+    "verdict": "PASS",
+    "pass": true,
+    "summary": "The clean official FastVideo Ref2VA output is visually usable for this boat sample: the passenger continuity, green vest retention, and post-jump visibility targets appear satisfied without major unrelated changes."
+  }
+}

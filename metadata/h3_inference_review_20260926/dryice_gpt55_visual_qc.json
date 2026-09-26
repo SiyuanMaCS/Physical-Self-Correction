@@ -1,0 +1,34 @@
+{
+  "sample_id": "001_T1_05859",
+  "qc_agent": "gpt55_visual_qc",
+  "visual_inputs_reviewed": [
+    "source_vs_fastvideo_contact_sheet.jpg",
+    "target_events_contact_sheet.jpg"
+  ],
+  "target": "At 0.6s the underwater white dry ice should not suddenly enlarge or rise; around 3.5s it should not sink without a visible force, and size/buoyant motion should remain continuous.",
+  "normal_video": {
+    "verdict": "PASS",
+    "evidence": "The output row is clear and temporally coherent across the full contact sheet, with no global mosaic collapse, blank frames, or severe corruption."
+  },
+  "scene_retention": {
+    "verdict": "PASS",
+    "evidence": "The glass bowl, yellow liquid, tabletop, hands, clothing, background, lighting, and fixed camera framing are preserved closely from the source."
+  },
+  "target_fix": {
+    "verdict": "PASS",
+    "evidence": "In target frames out f12/f14/f16, the underwater white object/cloud stays similar in size and position instead of abruptly enlarging upward. In out f82/f84/f86, the larger white dry-ice piece remains stable in size and vertical placement rather than visibly sinking without force."
+  },
+  "artifacts": {
+    "verdict": "PASS",
+    "evidence": "Only mild local smoothing and slight texture softness are visible around the underwater white material and water reflections; no new objects, style shift, or distracting structural artifacts are apparent."
+  },
+  "training_usability": {
+    "verdict": "PASS",
+    "evidence": "The target correction is localized and the rest of the scene remains usable, so the sample is suitable as a training candidate with a minor note for local smoothing."
+  },
+  "conclusion": {
+    "verdict": "PASS",
+    "pass": true,
+    "summary": "The clean official FastVideo Ref2VA output is visually valid for this dry-ice sample: it keeps the scene and appears to smooth the specified size/buoyancy discontinuities without major artifacts."
+  }
+}

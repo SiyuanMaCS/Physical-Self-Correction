@@ -1,0 +1,28 @@
+{
+  "sample_count": 2,
+  "all_pass": true,
+  "samples": [
+    {
+      "path": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/generated_physfix_replay_output/minimax_h3_ref2va_lora_generated_physfix_replay_20260926/samples/1790433278263__000000000_0.mp4",
+      "opened": true,
+      "fps": 24.0,
+      "width": 832,
+      "height": 480,
+      "frame_count_read": 22,
+      "pixel_std_mean": 48.74507290684529,
+      "frame_diff_mean": 0.6094480752944946,
+      "mechanical_pass": true
+    },
+    {
+      "path": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/generated_physfix_replay_output/minimax_h3_ref2va_lora_generated_physfix_replay_20260926/samples/1790433315377__000000000_0.mp4",
+      "opened": true,
+      "fps": 24.0,
+      "width": 832,
+      "height": 480,
+      "frame_count_read": 22,
+      "pixel_std_mean": 48.74294231693366,
+      "frame_diff_mean": 0.6001430153846741,
+      "mechanical_pass": true
+    }
+  ]
+}

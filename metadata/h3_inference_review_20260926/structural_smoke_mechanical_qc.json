@@ -1,0 +1,70 @@
+{
+  "samples": [
+    {
+      "path": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/replay_output/minimax_h3_ref2va_lora_replay_smoke_20260926/samples/1790430121971__000000000_0.mp4",
+      "opened": true,
+      "frame_count_meta": 22,
+      "fps": 24.0,
+      "width": 832,
+      "height": 480,
+      "bytes": 279138,
+      "frame_count_read": 22,
+      "pixel_std_mean": 70.01884819057369,
+      "frame_diff_mean": 7.520895957946777,
+      "streams": [
+        "video"
+      ],
+      "mechanical_pass": true
+    },
+    {
+      "path": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/replay_output/minimax_h3_ref2va_lora_replay_smoke_20260926/samples/1790430157829__000000000_0.mp4",
+      "opened": true,
+      "frame_count_meta": 22,
+      "fps": 24.0,
+      "width": 832,
+      "height": 480,
+      "bytes": 278749,
+      "frame_count_read": 22,
+      "pixel_std_mean": 70.01865068387173,
+      "frame_diff_mean": 7.5249481201171875,
+      "streams": [
+        "video"
+      ],
+      "mechanical_pass": true
+    },
+    {
+      "path": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/replay_output/minimax_h3_ref2va_lora_replay_smoke_20260926/samples/1790430579807__000000000_0.mp4",
+      "opened": true,
+      "frame_count_meta": 22,
+      "fps": 24.0,
+      "width": 832,
+      "height": 480,
+      "bytes": 278519,
+      "frame_count_read": 22,
+      "pixel_std_mean": 70.01768094383429,
+      "frame_diff_mean": 7.524318695068359,
+      "streams": [
+        "video"
+      ],
+      "mechanical_pass": true
+    },
+    {
+      "path": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/replay_output/minimax_h3_ref2va_lora_replay_smoke_20260926/samples/1790430616413__000000000_0.mp4",
+      "opened": true,
+      "frame_count_meta": 22,
+      "fps": 24.0,
+      "width": 832,
+      "height": 480,
+      "bytes": 278823,
+      "frame_count_read": 22,
+      "pixel_std_mean": 70.01575748389712,
+      "frame_diff_mean": 7.526543140411377,
+      "streams": [
+        "video"
+      ],
+      "mechanical_pass": true
+    }
+  ],
+  "all_pass": true,
+  "contact_sheet": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/replay_contact_sheet.jpg"
+}

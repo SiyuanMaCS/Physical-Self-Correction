@@ -1,0 +1,66 @@
+[
+  {
+    "label": "replay_0",
+    "source_video": "/mnt/bn/embodied-lf3/masiyuan/WorldJudge/data/judgebench/physion_eval_binary/videos/videos_lite/581043ba9072a9788fc124d904e26ab7eb6fb4bf8a446cfc4bdd522475480b2a_processed_h.mp4",
+    "output_video": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/generated_physfix_replay_output/minimax_h3_ref2va_lora_generated_physfix_replay_20260926/samples/1790433278263__000000000_0.mp4",
+    "sheet": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/gpt55_generated_physfix_replay_qc_20260926_2240/sheets/replay_0.jpg",
+    "output_stats": {
+      "opened": true,
+      "path": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/generated_physfix_replay_output/minimax_h3_ref2va_lora_generated_physfix_replay_20260926/samples/1790433278263__000000000_0.mp4",
+      "bytes": 51762,
+      "frame_count_read": 22,
+      "fps": 24.0,
+      "width": 832,
+      "height": 480,
+      "pixel_std_mean": 48.7451,
+      "frame_diff_mean": 0.6094
+    },
+    "raw_response": "{\n  \"decodable_normal_video\": true,\n  \"not_blank_or_static\": false,\n  \"meaningful_motion\": false,\n  \"preserves_source_scene_identity\": true,\n  \"not_noise_or_texture_collapse\": true,\n  \"addresses_target_physical_issue_observable\": false,\n  \"suitable_as_loading_smoke\": true,\n  \"suitable_as_visual_quality_pass\": false,\n  \"suitable_for_training_quality_decision\": false,\n  \"quality\": \"static_smoke\",\n  \"main_assessment\": \"The replay is decodable and preserves the bowl scene, but the output appears nearly static with only trivial visual change.\",\n  \"reject_or_caveat_reason\": \"Motion is too weak to verify meaningful buoyant dry-ice behavior or the intended physical correction.\"\n}",
+    "qc": {
+      "decodable_normal_video": true,
+      "not_blank_or_static": false,
+      "meaningful_motion": false,
+      "preserves_source_scene_identity": true,
+      "not_noise_or_texture_collapse": true,
+      "addresses_target_physical_issue_observable": false,
+      "suitable_as_loading_smoke": true,
+      "suitable_as_visual_quality_pass": false,
+      "suitable_for_training_quality_decision": false,
+      "quality": "static_smoke",
+      "main_assessment": "The replay is decodable and preserves the bowl scene, but the output appears nearly static with only trivial visual change.",
+      "reject_or_caveat_reason": "Motion is too weak to verify meaningful buoyant dry-ice behavior or the intended physical correction."
+    }
+  },
+  {
+    "label": "replay_1",
+    "source_video": "/mnt/bn/embodied-lf3/masiyuan/WorldJudge/data/judgebench/physion_eval_binary/videos/videos_lite/581043ba9072a9788fc124d904e26ab7eb6fb4bf8a446cfc4bdd522475480b2a_processed_h.mp4",
+    "output_video": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/generated_physfix_replay_output/minimax_h3_ref2va_lora_generated_physfix_replay_20260926/samples/1790433315377__000000000_0.mp4",
+    "sheet": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/gpt55_generated_physfix_replay_qc_20260926_2240/sheets/replay_1.jpg",
+    "output_stats": {
+      "opened": true,
+      "path": "/mnt/bn/embodied-lf3/masiyuan/h3_ref2va_lora_smoke_20260926/generated_physfix_replay_output/minimax_h3_ref2va_lora_generated_physfix_replay_20260926/samples/1790433315377__000000000_0.mp4",
+      "bytes": 51568,
+      "frame_count_read": 22,
+      "fps": 24.0,
+      "width": 832,
+      "height": 480,
+      "pixel_std_mean": 48.7429,
+      "frame_diff_mean": 0.6001
+    },
+    "raw_response": "{\n  \"decodable_normal_video\": true,\n  \"not_blank_or_static\": false,\n  \"meaningful_motion\": false,\n  \"preserves_source_scene_identity\": true,\n  \"not_noise_or_texture_collapse\": true,\n  \"addresses_target_physical_issue_observable\": false,\n  \"suitable_as_loading_smoke\": true,\n  \"suitable_as_visual_quality_pass\": false,\n  \"suitable_for_training_quality_decision\": false,\n  \"quality\": \"static_smoke\",\n  \"main_assessment\": \"The replay is decodable and preserves the bowl scene, but the output frames are effectively static with no meaningful observable motion or physical correction.\",\n  \"reject_or_caveat_reason\": \"Very low motion/static replay, so it cannot demonstrate correction of the dry-ice buoyancy/size anomaly.\"\n}",
+    "qc": {
+      "decodable_normal_video": true,
+      "not_blank_or_static": false,
+      "meaningful_motion": false,
+      "preserves_source_scene_identity": true,
+      "not_noise_or_texture_collapse": true,
+      "addresses_target_physical_issue_observable": false,
+      "suitable_as_loading_smoke": true,
+      "suitable_as_visual_quality_pass": false,
+      "suitable_for_training_quality_decision": false,
+      "quality": "static_smoke",
+      "main_assessment": "The replay is decodable and preserves the bowl scene, but the output frames are effectively static with no meaningful observable motion or physical correction.",
+      "reject_or_caveat_reason": "Very low motion/static replay, so it cannot demonstrate correction of the dry-ice buoyancy/size anomaly."
+    }
+  }
+]

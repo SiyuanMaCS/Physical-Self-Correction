@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniMax-H3 Inference Review 2026-09-26</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f5f7f9;
+  --panel: #ffffff;
+  --ink: #17202a;
+  --muted: #56616f;
+  --line: #d8dee6;
+  --pass: #146c43;
+  --fail: #a63d2a;
+  --warn: #8a5a00;
+  --soft-pass: #eefaf4;
+  --soft-fail: #fff1ee;
+  --soft-warn: #fff7df;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+main {
+  width: min(1480px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 24px 0 52px;
+}
+header, section {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+header {
+  padding: 22px 24px;
+  margin-bottom: 18px;
+}
+h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+p {
+  margin: 7px 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+a { color: #0f5f95; }
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.metric {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #f8fafc;
+  padding: 10px 12px;
+}
+.metric b {
+  display: block;
+  font-size: 18px;
+  line-height: 1.15;
+}
+.metric span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.notice {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px solid #e0c56a;
+  background: var(--soft-warn);
+  border-radius: 6px;
+  color: #473600;
+  line-height: 1.45;
+}
+.section-head {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfe;
+}
+.case {
+  padding: 18px;
+  border-top: 1px solid var(--line);
+}
+.case:first-of-type { border-top: 0; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+  margin-top: 12px;
+}
+.triple {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+  margin-top: 12px;
+}
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fafbfc;
+}
+.panel-title {
+  margin: 0;
+  padding: 8px 10px;
+  background: #eef2f6;
+  border-bottom: 1px solid var(--line);
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+}
+video, img {
+  display: block;
+  width: 100%;
+  background: #111;
+}
+video { aspect-ratio: 832 / 480; }
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 8px;
+}
+.badge {
+  border: 1px solid #bec8d4;
+  border-radius: 4px;
+  padding: 5px 8px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+}
+.badge.pass { color: var(--pass); border-color: #99c7ad; background: var(--soft-pass); }
+.badge.fail { color: var(--fail); border-color: #e1a093; background: var(--soft-fail); }
+.badge.warn { color: var(--warn); border-color: #d9bc57; background: var(--soft-warn); }
+.meta {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0 12px;
+}
+.meta div {
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #f8fafc;
+  padding: 8px;
+  min-width: 0;
+}
+.meta b {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 12px;
+  color: #4a5565;
+}
+.meta span {
+  display: block;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.prompt, .code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+.prompt {
+  margin-top: 10px;
+  padding: 9px 10px;
+  border: 1px solid #e1e5ea;
+  background: #fafafa;
+  border-radius: 5px;
+  color: #273444;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.code {
+  color: #334155;
+  font-size: 13px;
+}
+.pass-block { border-left: 6px solid var(--pass); }
+.fail-block { border-left: 6px solid var(--fail); }
+.warn-block { border-left: 6px solid var(--warn); }
+@media (max-width: 1050px) {
+  .summary, .meta, .grid, .triple { grid-template-columns: 1fr; }
+  h1 { font-size: 27px; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>MiniMax-H3 Inference Review</h1>
+  <p>Review page for the 2026-09-26 local MiniMax-H3 Ref2VA artifacts. The clean FastVideo inference samples are separated from the LoRA replay smoke outputs so the visual decision is explicit.</p>
+  <div class="summary">
+    <div class="metric"><b>2 / 2 PASS</b><span>clean FastVideo Ref2VA GPT-5.5 visual QC</span></div>
+    <div class="metric"><b>2 / 2 smoke only</b><span>generated-data LoRA replay GPT-5.5 visual QC</span></div>
+    <div class="metric"><b>124 frames</b><span>clean FastVideo outputs, 24 fps, 832 x 480</span></div>
+    <div class="metric"><b>22 frames</b><span>LoRA replay outputs, 24 fps, 832 x 480</span></div>
+  </div>
+  <div class="notice"><b>Current call:</b> the two clean FastVideo Ref2VA videos are visually usable candidates. The generated-data LoRA replay videos prove adapter loading/decoding only; GPT-5.5 marks them near-static and not suitable as a visual quality pass or training-quality decision.</div>
+</header>
+
+<section class="pass-block">
+  <div class="section-head">
+    <h2>Clean FastVideo Ref2VA Outputs</h2>
+    <p>Official local FastVideo MiniMaxH3Ref2VAModularPipeline, 50 steps, 4 H20 GPUs per sample. These are the two visually passed inference outputs from the current Physion fixing lane.</p>
+  </div>
+
+  <div class="case">
+    <h3>001_T1_05859 - dry ice size and buoyancy</h3>
+    <div class="badges">
+      <span class="badge pass">GPT-5.5 visual PASS</span>
+      <span class="badge pass">mechanical PASS</span>
+      <span class="badge pass">training_usability PASS</span>
+      <span class="badge">frame_diff_mean 0.671</span>
+    </div>
+    <div class="meta">
+      <div><b>source model</b><span>Hailuo 2.3</span></div>
+      <div><b>issue</b><span>material / state inconsistency</span></div>
+      <div><b>output</b><span>124 frames, 24 fps</span></div>
+      <div><b>resolution</b><span>832 x 480</span></div>
+      <div><b>seed / GPUs</b><span>44 / GPU0-3</span></div>
+    </div>
+    <p>GPT-5.5 summary: the output keeps the scene and appears to smooth the specified size/buoyancy discontinuities without major artifacts. Minor caveat: local smoothing and texture softness around underwater material.</p>
+    <div class="grid">
+      <div class="panel"><p class="panel-title">Source video</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/clean_fastvideo/dryice_source.mp4"></video></div>
+      <div class="panel"><p class="panel-title">Clean FastVideo output</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/clean_fastvideo/dryice_fastvideo_output.mp4"></video></div>
+    </div>
+    <div class="grid">
+      <div class="panel"><p class="panel-title">Source vs output contact sheet</p><img loading="lazy" src="assets/h3_inference_review_20260926/clean_fastvideo/dryice_source_vs_output.jpg" alt="Dry ice source and output contact sheet"></div>
+      <div class="panel"><p class="panel-title">Target event frames</p><img loading="lazy" src="assets/h3_inference_review_20260926/clean_fastvideo/dryice_target_events.jpg" alt="Dry ice target event frames"></div>
+    </div>
+    <div class="prompt">Edit the reference video to correct one localized physical error. Make the affected interaction physically plausible: Ensure the underwater white dry ice maintains consistent size and buoyant motion, without abruptly enlarging, rising, or sinking unless acted on by a visible force. Preserve the original scene, camera motion, actors, object identities, background, lighting, timing, and overall action. Do not introduce new objects, change the task, or stylize the video.</div>
+  </div>
+
+  <div class="case">
+    <h3>002_T1_08173 - boat passenger continuity</h3>
+    <div class="badges">
+      <span class="badge pass">GPT-5.5 visual PASS</span>
+      <span class="badge pass">mechanical PASS</span>
+      <span class="badge pass">training_usability PASS</span>
+      <span class="badge">frame_diff_mean 2.900</span>
+    </div>
+    <div class="meta">
+      <div><b>source model</b><span>Veo 3.1 Fast</span></div>
+      <div><b>issue</b><span>object permanence violation</span></div>
+      <div><b>output</b><span>124 frames, 24 fps</span></div>
+      <div><b>resolution</b><span>832 x 480</span></div>
+      <div><b>seed / GPUs</b><span>45 / GPU4-7</span></div>
+    </div>
+    <p>GPT-5.5 summary: the output preserves the harbor scene while making passenger continuity, green vest retention, and post-jump visibility more continuous. Minor caveat: distant people remain soft.</p>
+    <div class="grid">
+      <div class="panel"><p class="panel-title">Source video</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/clean_fastvideo/boat_source.mp4"></video></div>
+      <div class="panel"><p class="panel-title">Clean FastVideo output</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/clean_fastvideo/boat_fastvideo_output.mp4"></video></div>
+    </div>
+    <div class="grid">
+      <div class="panel"><p class="panel-title">Source vs output contact sheet</p><img loading="lazy" src="assets/h3_inference_review_20260926/clean_fastvideo/boat_source_vs_output.jpg" alt="Boat source and output contact sheet"></div>
+      <div class="panel"><p class="panel-title">Target event frames</p><img loading="lazy" src="assets/h3_inference_review_20260926/clean_fastvideo/boat_target_events.jpg" alt="Boat target event frames"></div>
+    </div>
+    <div class="prompt">Edit the reference video to correct one localized physical error. Make the affected interaction physically plausible: Ensure the small-boat passenger enters or is visible continuously before 1s, their vest stays green, and the jumper from the large ship remains visible after jumping. Preserve the original scene, camera motion, actors, object identities, background, lighting, timing, and overall action. Do not introduce new objects, change the task, or stylize the video.</div>
+  </div>
+</section>
+
+<section class="fail-block" style="margin-top:18px">
+  <div class="section-head">
+    <h2>Generated-Data LoRA Replay</h2>
+    <p>Two-step LoRA trained on the two generated Physion fixing samples, then replayed with the generated adapter. These files validate the data-to-LoRA-to-reload path, not visual quality.</p>
+  </div>
+
+  <div class="case">
+    <h3>generated_replay_0</h3>
+    <div class="badges">
+      <span class="badge pass">loading_smoke true</span>
+      <span class="badge fail">visual_quality_pass false</span>
+      <span class="badge fail">meaningful_motion false</span>
+      <span class="badge fail">training_quality_decision false</span>
+      <span class="badge">frame_diff_mean 0.609</span>
+    </div>
+    <div class="meta">
+      <div><b>quality</b><span>static_smoke</span></div>
+      <div><b>output</b><span>22 frames, 24 fps</span></div>
+      <div><b>resolution</b><span>832 x 480</span></div>
+      <div><b>size</b><span>51,762 bytes</span></div>
+      <div><b>QC</b><span>GPT-5.5</span></div>
+    </div>
+    <p>GPT-5.5: decodable and preserves the bowl scene, but the output appears nearly static with only trivial visual change. Motion is too weak to verify buoyant dry-ice behavior or the intended physical correction.</p>
+    <div class="grid">
+      <div class="panel"><p class="panel-title">Replay video</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/lora_generated_replay/generated_replay_0.mp4"></video></div>
+      <div class="panel"><p class="panel-title">Source vs replay sheet</p><img loading="lazy" src="assets/h3_inference_review_20260926/lora_generated_replay/generated_replay_0_sheet.jpg" alt="Generated replay 0 sheet"></div>
+    </div>
+  </div>
+
+  <div class="case">
+    <h3>generated_replay_1</h3>
+    <div class="badges">
+      <span class="badge pass">loading_smoke true</span>
+      <span class="badge fail">visual_quality_pass false</span>
+      <span class="badge fail">meaningful_motion false</span>
+      <span class="badge fail">training_quality_decision false</span>
+      <span class="badge">frame_diff_mean 0.600</span>
+    </div>
+    <div class="meta">
+      <div><b>quality</b><span>static_smoke</span></div>
+      <div><b>output</b><span>22 frames, 24 fps</span></div>
+      <div><b>resolution</b><span>832 x 480</span></div>
+      <div><b>size</b><span>51,568 bytes</span></div>
+      <div><b>QC</b><span>GPT-5.5</span></div>
+    </div>
+    <p>GPT-5.5: decodable and scene-preserving, but effectively static with no meaningful observable motion or physical correction. It cannot demonstrate correction of the dry-ice buoyancy/size anomaly.</p>
+    <div class="grid">
+      <div class="panel"><p class="panel-title">Replay video</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/lora_generated_replay/generated_replay_1.mp4"></video></div>
+      <div class="panel"><p class="panel-title">Source vs replay sheet</p><img loading="lazy" src="assets/h3_inference_review_20260926/lora_generated_replay/generated_replay_1_sheet.jpg" alt="Generated replay 1 sheet"></div>
+    </div>
+  </div>
+</section>
+
+<section class="warn-block" style="margin-top:18px">
+  <div class="section-head">
+    <h2>Earlier Structural LoRA Smoke Videos</h2>
+    <p>These four 22-frame files are included for traceability. They were mechanical smoke outputs from adapter reload/productive smoke runs, not training-quality evidence.</p>
+  </div>
+  <div class="case">
+    <div class="badges">
+      <span class="badge warn">structural smoke only</span>
+      <span class="badge pass">mechanically decodable</span>
+      <span class="badge">22 frames each</span>
+    </div>
+    <div class="triple">
+      <div class="panel"><p class="panel-title">Smoke 0</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/lora_structural_smoke/structural_smoke_0.mp4"></video></div>
+      <div class="panel"><p class="panel-title">Smoke 1</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/lora_structural_smoke/structural_smoke_1.mp4"></video></div>
+      <div class="panel"><p class="panel-title">Smoke 2</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/lora_structural_smoke/structural_smoke_2.mp4"></video></div>
+    </div>
+    <div class="grid">
+      <div class="panel"><p class="panel-title">Smoke 3</p><video controls preload="metadata" src="assets/h3_inference_review_20260926/lora_structural_smoke/structural_smoke_3.mp4"></video></div>
+      <div class="panel"><p class="panel-title">Structural smoke contact sheet</p><img loading="lazy" src="assets/h3_inference_review_20260926/lora_structural_smoke/replay_contact_sheet.jpg" alt="LoRA structural smoke contact sheet"></div>
+    </div>
+  </div>
+</section>
+
+<section style="margin-top:18px">
+  <div class="section-head">
+    <h2>Artifacts</h2>
+    <p class="code">metadata/h3_inference_review_20260926/dryice_gpt55_visual_qc.json</p>
+    <p class="code">metadata/h3_inference_review_20260926/boat_gpt55_visual_qc.json</p>
+    <p class="code">metadata/h3_inference_review_20260926/generated_replay_gpt55_summary.json</p>
+    <p class="code">metadata/h3_inference_review_20260926/generated_replay_mechanical_qc.json</p>
+    <p class="code">metadata/h3_inference_review_20260926/structural_smoke_mechanical_qc.json</p>
+    <p>Additional broader local H3 DiffSynth review page: <a href="local_h3_review_20260926.html">local_h3_review_20260926.html</a></p>
+  </div>
+</section>
+</main>
+</body>
+</html>
